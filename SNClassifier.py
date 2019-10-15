@@ -109,7 +109,7 @@ def getIssueURLList_Nature(fr=2015,to=2019):
         volumeURLs = getVolumeURLList_Nature(fr,to)
         for volumeURL in volumeURLs:
             issueURLs_volume = getIssueURLListByVolumeURL_Nature(volumeURL)
-            issueURLs += issueURL_volume
+            issueURLs += issueURLs_volume
         return issueURLs
 
 def getArticleDataListByIssueURL_Nature(URL):
@@ -120,24 +120,27 @@ def getArticleDataListByIssueURL_Nature(URL):
     research =  soup.find(attrs={'aria-labelledby':'Research'})
 
     if research:
-        articleTag = research.find(lambda tag:tag.string == 'Articles')
-        letterTag = research.find(lambda tag:tag.string == 'Letters') #定位
-        article = articleTag.next_sibling
+        articleTag = research.find(lambda tag:tag.string == 'Articles') #定位
 
-        while not article == letterTag:
-            if article.string == '\n':
-                pass #跳过空白行
-            else:
-                articleTitle_en = re.findall(r'\s*(.*)',article.a.get_text())[0] #处理掉句首的空白字符
-                articleTitle_zh = translate(articleTitle_en)
-                articleURL = 'https://www.nature.com' + article.a.attrs['href'] #需要补全
-                data = {
-                    'articleTitle_en': articleTitle_en,
-                    'articleTitle_zh': articleTitle_zh,
-                    'articleURL': articleURL}
-                datas.append(data)
-            article = article.next_sibling
-        return datas
+        if articleTag:
+            article = articleTag.next_sibling
+
+            while not article.name == 'h3': #到下一个栏目截止
+                if article.string == '\n':
+                    pass #跳过空白行
+                else:
+                    articleTitle_en = re.findall(r'\s*(.*)',article.a.get_text())[0] #处理掉句首的空白字符
+                    articleTitle_zh = translate(articleTitle_en)
+                    articleURL = 'https://www.nature.com' + article.a.attrs['href'] #需要补全
+                    data = {
+                        'articleTitle_en': articleTitle_en,
+                        'articleTitle_zh': articleTitle_zh,
+                        'articleURL': articleURL}
+                    datas.append(data)
+                article = article.next_sibling
+            return datas
+        else:
+            return []
     else:
         return []
 
