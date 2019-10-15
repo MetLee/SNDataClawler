@@ -149,15 +149,29 @@ def main():
 
     #Science
     issueURLs_Science = getIssueURLList_Science()
+
+    with open('issueURLs_Science.txt','w') as f:
+        f.write(json.dumps(issueURLs_Science,indent=4))
+
     for issueURL_Science in issueURLs_Science:
         data = getArticleDataListByIssueURL_Science(issueURL_Science)
         datas['Science'] += data
 
+    with open('Science.txt','w') as f:
+        f.write(json.dumps(datas['Science'],indent=4))
+
     #Nature
     issueURLs_Nature = getIssueURLList_Nature()
+
+    with open('issueURLs_Nature.txt','w') as f:
+        f.write(json.dumps(issueURLs_Nature,indent=4))
+
     for issueURL_Nature in issueURLs_Nature:
         data = getArticleDataListByIssueURL_Nature(issueURL_Nature)
         datas['Nature'] += data
+
+    with open('Nature.txt','w') as f:
+        f.write(json.dumps(datas['Nature'],indent=4))
 
     #output
     with open('datas.txt','w') as f:
