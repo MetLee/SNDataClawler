@@ -1,10 +1,10 @@
-
 import json
 import re
 import requests as r
 from bs4 import BeautifulSoup as bs
 
 def translate(string,fr='en',to='zh'):
+    return None
     api = 'http://translate.google.cn/translate_a/single?client=gtx&sl=en&tl=zh-CN&dt=t&q='
 
     _ = r.get(api+string).content
