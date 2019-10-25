@@ -7,8 +7,10 @@ def getSubject_Science(URL):  #throw(Exception) (C++ type)
     try:
         subjects = re.findall(r'oas_tag.query = \'subject=(.*?)\';',_)[0]
         subjectList = subjects.split('&subject=')
+    except IndexError as e:
+        subjectList = None
+        print(e)
     except Exception as e:
-        subject = None
         raise(e)
     return subjectList
 
@@ -17,8 +19,10 @@ def getSubject_Nature(URL):  #throw(Exception) (C++ type)
     try:
         subjects = re.findall(r'<meta name="WT.z_subject_term" content="(.*?)"/>',_)[0] #这里必须用/关闭meta标签
         subjectList = subjects.split(';')
-    except Exception as e:
+    except IndexError as e:
         subjectList = None
+        print(e)
+    except Exception as e:
         raise(e)
     return subjectList
 
@@ -31,10 +35,7 @@ def Science():
         for article in datas['Science']:
             if  'subject' not in article or article['subject'] == None:
                 result = getSubject_Science(article['articleURL'])
-                if result:
-                    article['subject'] = result
-                else:
-                    article['subject'] = []
+                article['subject'] = result
                 counter += 1
                 print(counter)
     except Exception as e:
@@ -52,10 +53,7 @@ def Nature():
         for article in datas['Nature']:
             if  'subject' not in article or article['subject'] == None:
                 result = getSubject_Nature(article['articleURL'])
-                if result:
-                    article['subject'] = result
-                else:
-                    article['subject'] = []
+                article['subject'] = result
                 counter += 1
                 print(counter)
     except Exception as e:
