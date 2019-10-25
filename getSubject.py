@@ -5,7 +5,7 @@ import re
 def getSubject_Science(URL):  #throw(Exception) (C++ type)
     _ = r.get(URL).text
     try:
-        subject = re.findall(r'subject=([a-zA-Z\s]*?);',_)[0]
+        subject = re.findall(r'oas_tag.query = \'subject=(.*?)\';',_)[0]
     except Exception as e:
         subject = None
         raise(e)
