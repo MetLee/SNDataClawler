@@ -5,11 +5,12 @@ import re
 def getSubject_Science(URL):  #throw(Exception) (C++ type)
     _ = r.get(URL).text
     try:
-        subject = re.findall(r'oas_tag.query = \'subject=(.*?)\';',_)[0]
+        subjects = re.findall(r'oas_tag.query = \'subject=(.*?)\';',_)[0]
+        subjectList = subjects.split('&subject=')
     except Exception as e:
         subject = None
         raise(e)
-    return subject
+    return subjectList
 
 def getSubject_Nature(URL):  #throw(Exception) (C++ type)
     _ = r.get(URL).text
@@ -33,7 +34,7 @@ def Science():
                 if result:
                     article['subject'] = result
                 else:
-                    article['subject'] = result
+                    article['subject'] = []
                 counter += 1
                 print(counter)
     except Exception as e:
@@ -54,7 +55,7 @@ def Nature():
                 if result:
                     article['subject'] = result
                 else:
-                    article['subject'] = result
+                    article['subject'] = []
                 counter += 1
                 print(counter)
     except Exception as e:
