@@ -4,7 +4,7 @@ import requests as r
 
 def translate(string,fr='en',to='zh'): #throw(Exception) (C++ type)
     api = 'http://translate.google.cn/translate_a/single?client=gtx&sl=en&tl=zh-CN&dt=t&q='
-    _ = r.get(api+string).content
+    _ = r.get(api+string).text
     try:
         result = json.loads(_)[0][0][0]
     except Exception as e:

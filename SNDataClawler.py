@@ -12,7 +12,7 @@ def getIssueURLList_Science(fr=2015,to=2019):
     else:
         for year in range(fr, to+1):
             archiveURL = 'https://science.sciencemag.org/content/by/year/' + str(year)
-            _ = r.get(archiveURL).content
+            _ = r.get(archiveURL).text
             soup = bs(_, features='lxml')
             issues = soup.find(class_='archive-issue-list') #定位
 
@@ -27,7 +27,7 @@ def getIssueURLList_Science(fr=2015,to=2019):
 
 def getArticleDataListByIssueURL_Science(URL):
     datas = []
-    _ = r.get(URL).content
+    _ = r.get(URL).text
     soup = bs(_, features='lxml')
     articles = soup.find(class_='issue-toc-section-research-articles') #定位 research article 板块
 
@@ -58,7 +58,7 @@ def getVolumeURLList_Nature(fr=2015,to=2019):
         return []
     else:
         archiveURL = 'https://www.nature.com/nature/volumes'
-        _ = r.get(archiveURL).content
+        _ = r.get(archiveURL).text
         soup = bs(_, features='lxml')
 
         for year in range(fr, to+1):
@@ -76,7 +76,7 @@ def getVolumeURLList_Nature(fr=2015,to=2019):
 
 def getIssueURLListByVolumeURL_Nature(volumeURL):
     issueURLs = []
-    _ = r.get(volumeURL).content
+    _ = r.get(volumeURL).text
     soup = bs(_, features='lxml')
     issues = soup.find(id='issue-list')
 
@@ -103,7 +103,7 @@ def getIssueURLList_Nature(fr=2015,to=2019):
 
 def getArticleDataListByIssueURL_Nature(URL):
     datas = []
-    _ = r.get(URL).content
+    _ = r.get(URL).text
     soup = bs(_, features='lxml')
 
     research =  soup.find(attrs={'aria-labelledby':'Research'})
