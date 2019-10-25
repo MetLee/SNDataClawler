@@ -11,7 +11,7 @@ def getSubject_Science(URL):  #throw(Exception) (C++ type)
         raise(e)
     return subject
 
-def main():
+def Science():
     with open('datas.txt','r') as f:
         datas = json.load(f)
 
@@ -32,5 +32,3 @@ def main():
         with open('datas.txt','w') as f:
             f.write(json.dumps(datas,indent=4))
 
-if __name__ == '__main__':
-	main()
