@@ -64,4 +64,5 @@ def Nature():
             f.write(json.dumps(datas,indent=4))
 
 if __name__ == '__main__':
-	Nature()
+	#Nature()
+    Science()

@@ -3,6 +3,7 @@ import re
 import requests as r
 from bs4 import BeautifulSoup as bs
 from translator import translate
+from getSubject import getSubject_Science, getSubject_Nature 
 
 def getIssueURLList_Science(fr=2015,to=2019):
     issueURLs = []
@@ -40,10 +41,15 @@ def getArticleDataListByIssueURL_Science(URL):
                 articleTitle_en = target.get_text() #使用 .string 会无法识别<sup></sup>
                 articleTitle_zh = None #translate(articleTitle_en)
                 articleURL = 'https://science.sciencemag.org' + target.attrs['href'] #需要补全
+                try:
+                    subject = getSubject_Science(articleURL)
+                except:
+                    subject = None
                 data = {
                     'articleTitle_en': articleTitle_en,
                     'articleTitle_zh': articleTitle_zh,
-                    'articleURL': articleURL}
+                    'articleURL': articleURL,
+                    'subject': subject}
                 datas.append(data)
             else:
                 continue
@@ -121,10 +127,15 @@ def getArticleDataListByIssueURL_Nature(URL):
                     articleTitle_en = re.findall(r'\s*(.*)',article.a.get_text())[0] #处理掉句首的空白字符
                     articleTitle_zh = None #translate(articleTitle_en)
                     articleURL = 'https://www.nature.com' + article.a.attrs['href'] #需要补全
+                    try:
+                        subject = getSubject_Nature(articleURL)
+                    except:
+                        subject = None
                     data = {
                         'articleTitle_en': articleTitle_en,
                         'articleTitle_zh': articleTitle_zh,
-                        'articleURL': articleURL}
+                        'articleURL': articleURL,
+                        'subject': subject}
                     datas.append(data)
                 article = article.next_sibling
             return datas
