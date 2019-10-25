@@ -3,18 +3,18 @@ import requests as r
 import re
 
 def getSubject_Science(URL):  #throw(Exception) (C++ type)
-    _ = r.get(URL).content
+    _ = r.get(URL).text
     try:
-        subject = re.findall(r'subject=([a-zA-Z\s]*?);',str(_))[0]
+        subject = re.findall(r'subject=([a-zA-Z\s]*?);',_)[0]
     except Exception as e:
         subject = None
         raise(e)
     return subject
 
 def getSubject_Nature(URL):  #throw(Exception) (C++ type)
-    _ = r.get(URL).content
+    _ = r.get(URL).text
     try:
-        subjects = re.findall(r'<meta name="WT.z_subject_term" content="(.*?)">',str(_))[0]
+        subjects = re.findall(r'<meta name="WT.z_subject_term" content="(.*?)"/>',_)[0] #这里必须用/关闭meta标签
         subjectList = subjects.split(';')
     except Exception as e:
         subjectList = None
