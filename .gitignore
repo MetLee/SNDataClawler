@@ -2,3 +2,12 @@
 SNDataClawler.pyproj
 .vs/SNDataClawler/v16/.suo
 SNDataClawler.sln
+*.dll
+*.xml
+*.p7s
+*.nupkg
+packages/Newtonsoft.Json.12.0.2/LICENSE.md
+*.ide-wal
+*.ide-shm
+*.ide
+*.lock
