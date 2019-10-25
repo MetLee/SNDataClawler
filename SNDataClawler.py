@@ -2,18 +2,7 @@ import json
 import re
 import requests as r
 from bs4 import BeautifulSoup as bs
-
-def translate(string,fr='en',to='zh'):
-    return None
-    api = 'http://translate.google.cn/translate_a/single?client=gtx&sl=en&tl=zh-CN&dt=t&q='
-
-    _ = r.get(api+string).content
-    try:
-        result = json.loads(_)[0][0][0]
-    except Exception as e:
-        print(e)
-        result = None
-    return result
+from translator import translate
 
 def getIssueURLList_Science(fr=2015,to=2019):
     issueURLs = []
@@ -49,7 +38,7 @@ def getArticleDataListByIssueURL_Science(URL):
 
             if target:
                 articleTitle_en = target.get_text() #使用 .string 会无法识别<sup></sup>
-                articleTitle_zh = translate(articleTitle_en)
+                articleTitle_zh = None #translate(articleTitle_en)
                 articleURL = 'https://science.sciencemag.org' + target.attrs['href'] #需要补全
                 data = {
                     'articleTitle_en': articleTitle_en,
@@ -130,7 +119,7 @@ def getArticleDataListByIssueURL_Nature(URL):
                     pass #跳过空白行
                 else:
                     articleTitle_en = re.findall(r'\s*(.*)',article.a.get_text())[0] #处理掉句首的空白字符
-                    articleTitle_zh = translate(articleTitle_en)
+                    articleTitle_zh = None #translate(articleTitle_en)
                     articleURL = 'https://www.nature.com' + article.a.attrs['href'] #需要补全
                     data = {
                         'articleTitle_en': articleTitle_en,
