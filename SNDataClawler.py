@@ -157,7 +157,7 @@ def main():
         data = getArticleDataListByIssueURL_Science(issueURL_Science)
         datas['Science'] += data
 
-    with open('Science.txt','w') as f:
+    with open('datas_Science.txt','w') as f:
         f.write(json.dumps(datas['Science'],indent=4))
 
     #Nature
@@ -170,7 +170,7 @@ def main():
         data = getArticleDataListByIssueURL_Nature(issueURL_Nature)
         datas['Nature'] += data
 
-    with open('Nature.txt','w') as f:
+    with open('datas_Nature.txt','w') as f:
         f.write(json.dumps(datas['Nature'],indent=4))
 
     #output
