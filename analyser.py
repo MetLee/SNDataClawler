@@ -1,5 +1,6 @@
 import copy
 import json
+import os
 
 def merge(list1,list2,index):
     mergeResult = copy.deepcopy(list1)
@@ -51,18 +52,26 @@ def main():
     with open('datas.txt','r') as f:
         datas = json.load(f)
 
-    #result_Science = analyser(data=datas['Science'])
-    #with open('result_Science.txt','w') as f:
-    #    f.write(json.dumps(result_Science,indent=4))
-    result_Science = []
+    if not os.path.exists('filters.txt'):
+        result_Science = analyser(data=datas['Science'])
+        with open('result_Science.txt','w') as f:
+            f.write(json.dumps(result_Science,indent=4))
 
-    result_Nature = analyser(data=datas['Nature'])
-    with open('result_Nature.txt','w') as f:
-        f.write(json.dumps(result_Nature,indent=4))
+        result_Nature = analyser(data=datas['Nature'])
+        with open('result_Nature.txt','w') as f:
+            f.write(json.dumps(result_Nature,indent=4))
 
-    result = {'Science': result_Science, 'Nature': result_Nature}
-    with open('result.txt','w') as f:
-        f.write(json.dumps(result,indent=4))
+        result = {'Science': result_Science, 'Nature': result_Nature}
+        with open('result.txt','w') as f:
+            f.write(json.dumps(result,indent=4))
+    else:
+        with open('filters.txt','r') as f:
+            filters = json.load(f)
+        result_filter_Science = analyser(data=datas['Science'],filters=filters)
+        result_filter_Nature = analyser(data=datas['Nature'],filters=filters)
+        result_filter = {'Science': result_filter_Science, 'Nature': result_filter_Nature}
+        with open('result_filter.txt','w') as f:
+            f.write(json.dumps(result_filter,indent=4))
 
 if __name__ == '__main__':
 	main()   
